@@ -1,0 +1,198 @@
+fileFormatVersion: 2
+guid: 58eb4c7dff1ce22499e3d2567282bb2a
+timeCreated: 1425824699
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: WATERSTRIKE_0
+    21300002: WATERSTRIKE_1
+    21300004: WATERSTRIKE_2
+    21300006: WATERSTRIKE_3
+    21300008: WATERSTRIKE_4
+    21300010: WATERSTRIKE_5
+    21300012: WATERSTRIKE_6
+    21300014: WATERSTRIKE_7
+    21300016: WATERSTRIKE_8
+    21300018: WATERSTRIKE_9
+    21300020: WATERSTRIKE_10
+    21300022: WATERSTRIKE_11
+    21300024: WATERSTRIKE_12
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: WATERSTRIKE_0
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 9
+        width: 47
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WATERSTRIKE_1
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 11
+        width: 44
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WATERSTRIKE_2
+      rect:
+        serializedVersion: 2
+        x: 353
+        y: 33
+        width: 32
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WATERSTRIKE_3
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 9
+        width: 66
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WATERSTRIKE_4
+      rect:
+        serializedVersion: 2
+        x: 631
+        y: 11
+        width: 68
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WATERSTRIKE_5
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 6
+        width: 116
+        height: 109
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WATERSTRIKE_6
+      rect:
+        serializedVersion: 2
+        x: 978
+        y: 6
+        width: 118
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WATERSTRIKE_7
+      rect:
+        serializedVersion: 2
+        x: 1134
+        y: 10
+        width: 119
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WATERSTRIKE_8
+      rect:
+        serializedVersion: 2
+        x: 1291
+        y: 10
+        width: 119
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WATERSTRIKE_9
+      rect:
+        serializedVersion: 2
+        x: 1509
+        y: 22
+        width: 18
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WATERSTRIKE_10
+      rect:
+        serializedVersion: 2
+        x: 1532
+        y: 21
+        width: 26
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WATERSTRIKE_11
+      rect:
+        serializedVersion: 2
+        x: 1538
+        y: 22
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WATERSTRIKE_12
+      rect:
+        serializedVersion: 2
+        x: 1605
+        y: 8
+        width: 88
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
