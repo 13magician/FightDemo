@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: 6399eb1f09d935040b74143a097917c1
-timeCreated: 1425824650
-licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
     21300000: forward_0
@@ -30,9 +28,6 @@ TextureImporter:
   isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 0
-  cubemapConvolution: 0
-  cubemapConvolutionSteps: 8
-  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
   maxTextureSize: 2048
@@ -43,7 +38,6 @@ TextureImporter:
     wrapMode: 1
   nPOTScale: 0
   lightmap: 0
-  rGBM: 0
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
@@ -51,7 +45,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
@@ -64,8 +58,8 @@ TextureImporter:
         y: 8
         width: 83
         height: 55
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: forward_1
       rect:
@@ -74,8 +68,8 @@ TextureImporter:
         y: 5
         width: 83
         height: 53
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: forward_2
       rect:
@@ -84,8 +78,8 @@ TextureImporter:
         y: 3
         width: 83
         height: 55
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: forward_3
       rect:
@@ -94,8 +88,8 @@ TextureImporter:
         y: 4
         width: 82
         height: 54
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: forward_4
       rect:
@@ -104,8 +98,8 @@ TextureImporter:
         y: 7
         width: 82
         height: 54
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: forward_5
       rect:
@@ -114,8 +108,8 @@ TextureImporter:
         y: 6
         width: 82
         height: 53
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: forward_6
       rect:
@@ -124,8 +118,8 @@ TextureImporter:
         y: 4
         width: 81
         height: 55
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: forward_7
       rect:
@@ -134,10 +128,8 @@ TextureImporter:
         y: 5
         width: 83
         height: 54
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
-  assetBundleName: 
-  assetBundleVariant: 
