@@ -95,10 +95,10 @@ TextureImporter:
     - name: 24_4
       rect:
         serializedVersion: 2
-        x: 965
-        y: 17
-        width: 50
-        height: 46
+        x: 901
+        y: 11
+        width: 118
+        height: 61
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
