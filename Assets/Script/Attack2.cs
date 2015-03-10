@@ -13,9 +13,9 @@ public class Attack2 : AbilityBaseClass//继承AbilityBaseClass的一些常用�
     }
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.X) && !IsName("attack2"))//发动攻击2动画
-        {
-            anim.SetTrigger("attack2");
-        }
+        //if (Input.GetKeyDown(KeyCode.X) && !IsName("attack2"))//发动攻击2动画
+        //{
+        //    anim.SetTrigger("attack2");
+        //}
     }
 }

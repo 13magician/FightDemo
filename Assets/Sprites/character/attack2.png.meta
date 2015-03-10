@@ -59,8 +59,8 @@ TextureImporter:
         y: 4
         width: 74
         height: 60
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .400000006, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 23_1
       rect:
@@ -79,8 +79,8 @@ TextureImporter:
         y: 4
         width: 63
         height: 63
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 23_3
       rect:
@@ -89,8 +89,8 @@ TextureImporter:
         y: 4
         width: 60
         height: 62
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 23_4
       rect:
@@ -99,8 +99,8 @@ TextureImporter:
         y: 4
         width: 59
         height: 63
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 23_5
       rect:
@@ -109,8 +109,8 @@ TextureImporter:
         y: 4
         width: 140
         height: 69
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .269519925, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 23_6
       rect:
@@ -119,8 +119,8 @@ TextureImporter:
         y: 4
         width: 94
         height: 69
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .389999986, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 23_7
       rect:
@@ -129,8 +129,8 @@ TextureImporter:
         y: 4
         width: 94
         height: 59
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .389999986, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 23_8
       rect:
@@ -139,8 +139,8 @@ TextureImporter:
         y: 4
         width: 52
         height: 61
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .119999997, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
