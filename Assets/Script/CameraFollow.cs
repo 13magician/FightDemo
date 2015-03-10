@@ -5,7 +5,7 @@ public class CameraFollow : MonoBehaviour {//镜头跟踪角色
 
     public Transform character;//玩家角色
     public float xCameraMaxOffset = 1, yCameraMaxOffset = 1;//超过偏移镜头才会自动跟踪
-    public float CamaeraMin = -16.37f, CamaeraMax = 4.36f;//限制镜头X轴的最大最小值
+    public float CamaeraMin = -14.26507f, CamaeraMax = 2.21776f;//限制镜头X轴的最大最小值
     public float xSmooth = 2f,ySmooth=2f;//设置镜头平移时的速度
     //private Transform playerCamera;//用于玩家的镜头
     private float cameraYoffset = 1.69f;//镜头Y轴和角色Y轴的偏移
@@ -25,7 +25,7 @@ public class CameraFollow : MonoBehaviour {//镜头跟踪角色
     }
     void ResetCamera()//设置镜头的XY跟角色对齐
     {
-        transform.position = new Vector3(character.position.x, character.position.y + cameraYoffset, transform.position.z);
+        transform.position = new Vector3(Mathf.Clamp( character.position.x,CamaeraMin, CamaeraMax), character.position.y + cameraYoffset, transform.position.z);
         return;//用过度方式会出现类似卡顿现象
         //Vector3 vt3 = transform.position;//默认保存镜头的向量
         //if (Mathf.Abs(character.position.x - transform.position.x) > xCameraMaxOffset)//玩家的X位置减去镜头所在的Y位置大于镜头跟随最大值
