@@ -46,6 +46,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Script\AbilityBaseClass.cs" />
+     <Compile Include="Assets\Script\ActionState.cs" />
+     <Compile Include="Assets\Script\Attack2.cs" />
      <Compile Include="Assets\Script\CameraFollow.cs" />
      <Compile Include="Assets\Script\PlayerControl.cs" />
  <Reference Include="UnityEngine.UI">
