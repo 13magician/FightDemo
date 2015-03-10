@@ -62,7 +62,7 @@ public class Attack1 : AbilityBaseClass {
             rigid.AddForce(new Vector2(-force, 0));
         }
     }
-    void AttackedMaxSpeed(float maxSpeed)//限制攻击时的最大速度
+    void AttackedMaxSpeed(float maxSpeed)//限制攻击时的最大速度--技能基类
     {
         Rigidbody2D rigid = GetComponent<Rigidbody2D>();
         Vector2 velocity = rigid.velocity;

@@ -51,6 +51,7 @@
      <Compile Include="Assets\Script\Attack1.cs" />
      <Compile Include="Assets\Script\Attack2.cs" />
      <Compile Include="Assets\Script\CameraFollow.cs" />
+     <Compile Include="Assets\Script\GreenWater.cs" />
      <Compile Include="Assets\Script\PlayerControl.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>F:/unity4.6.0f3/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
