@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 public class PlayerControl : MonoBehaviour {//主要玩家控制角色
 
     // Use this for initialization
@@ -10,6 +10,10 @@ public class PlayerControl : MonoBehaviour {//主要玩家控制角色
     public Animator anim;
     private Rigidbody2D rigid;//角色的刚体组件
     private ActionState playState;//保存玩家的状态
+    public Transform mainCastAssist;//辅助投射的父物体
+    public  Transform[] castAssist;//4个辅助投射
+    public delegate void TriggerAbility();//定义一个委托，用于触发技能。主要给下面的Dictionary用
+    public Dictionary<string, TriggerAbility> triggerAbility = new Dictionary<string, TriggerAbility>();//定义一个Dictionary(Mapping)。映射相应的技能
     void Start () {
         anim = GetComponent<Animator>();
         rigid =GetComponent<Rigidbody2D>();
@@ -65,5 +69,11 @@ public class PlayerControl : MonoBehaviour {//主要玩家控制角色
         vt3.x *= -1;
         transform.localScale = vt3;//修改父物体x缩放为反方向
        playState.rightSide = !playState.rightSide;//设置角色面相相反
+    }
+    void AbilityTrigger(string abilityClassName)
+    {
+        triggerAbility[abilityClassName]();
+     //   mainCastAssist.gameObject.SetActive(false);
+        Debug.Log("aa");
     }
 }

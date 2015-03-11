@@ -1,13 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 public class Attack1 : AbilityBaseClass {
 
     float endTime2 = 0.65f;//技能1还剩多长时间时按X可以连接到技能2。
     public float attacked1Force = 50f;//角色攻击时，如果按下方向键所增加的力
     public float attacked1MaxMove = 4.5f,attacked4MaxMove=3f;
+    string abilityName = "Attack1";//一定要定义技能的名字
+    public override string AbilityName { get { return abilityName; } set { abilityName = value; } }//名字的属性··蛋疼。已经放在基类。是抽象。要重写
+    //delegate void TriggerAbility();//定义一个委托··放到技能基类。好像不需要这个··
+    PlayerControl player;//玩家控制的角色··放到技能基类
+   // Dictionary<string, TriggerAbility> triggerAbility = new Dictionary<string, TriggerAbility>();//定义一个mapping···放到基类
     //保存播放动画的名称
-    public string attack1 = "attack2", attack2= "sweep",attack3= "attack1", attack4= "sweepBack"; 
+    public string attack1 = "attack2", attack2= "sweep",attack3= "attack1", attack4= "sweepBack";
+    protected override void  AbiStart()//重写基类的AbiStrat函数···是否要考虑换下名字，比如Init···
+    {
+        player = GetComponent<PlayerControl>();
+        if(!player.triggerAbility.ContainsKey(AbilityName))//如果玩家类的触发技能里没有我的技能
+        {
+            player.triggerAbility.Add(AbilityName, triggerAbility);//给他添加···
+        }
+    }
+    void triggerAbility()
+    {
+        Debug.Log("bbbb");
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.X))//如果按下X
