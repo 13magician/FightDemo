@@ -21,9 +21,9 @@ public class Attack1 : AbilityBaseClass {
             player.triggerAbility.Add(AbilityName, triggerAbility);//给他添加···
         }
     }
-    void triggerAbility()
+    void triggerAbility(Transform hit)//技能碰撞的接口
     {
-        Debug.Log("bbbb");
+
     }
     void Update()
     {

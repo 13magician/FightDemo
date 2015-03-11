@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GreenWater : MonoBehaviour {
+public class GreenWater : MonoBehaviour {//绿水灵的脚本。我想在动画里设置跳起时候的播放速度0.接触地面才改回正常
 
     // Use this for initialization
     Animator anim;
