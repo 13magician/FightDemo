@@ -77,8 +77,9 @@ public class Attack1 : AbilityBaseClass {
         {
             AddForce(attacked1Force);
             AttackedMaxSpeed(attacked4MaxMove);//限制移动速度
+         
         }
-        else if(IsName(attack4)&&GetAnimRate<0.5f)
+         if(IsName(attack4) && GetAnimRate<0.5f)
         {
             AddForce(attacked1Force);
             AttackedMaxSpeed(attacked4MaxMove);//限制移动速度
