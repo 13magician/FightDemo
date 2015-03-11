@@ -6,6 +6,7 @@ public class ColliderAssist : MonoBehaviour {
     string abilityName;
     // Use this for initialization
     void Start () {
+        GetComponent<Collider2D>().enabled = false;//初始化让他false····就不用手动调了
         ply = transform.parent.GetComponent<PlayerControl>();//玩家的脚本
     }
 	
