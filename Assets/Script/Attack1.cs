@@ -5,7 +5,7 @@ public class Attack1 : AbilityBaseClass {
 
     float endTime2 = 0.65f;//技能1还剩多长时间时按X可以连接到技能2。
     public float attacked1Force = 50f;//角色攻击时，如果按下方向键所增加的力
-    public float attacked1MaxMove = 4.5f,attacked4MaxMove=3f;
+    public float attacked1MaxMove = 4.5f,attacked4MaxMove=2f;
     string abilityName = "Attack1";//一定要定义技能的名字
     public override string AbilityName { get { return abilityName; } set { abilityName = value; } }//名字的属性··蛋疼。已经放在基类。是抽象。要重写
     //delegate void TriggerAbility();//定义一个委托··放到技能基类。好像不需要这个··
@@ -23,8 +23,25 @@ public class Attack1 : AbilityBaseClass {
     }
     void triggerAbility(Transform hit)//技能碰撞的接口
     {
+        if (hit.GetComponent<Monster>() != null)//如果有怪物类脚本
+        {
+            hit.GetComponent<Monster>().wasAttacked(0.65f);//调用怪物类的被攻击接口
+            Rigidbody2D rigid = hit.GetComponent<Rigidbody2D>();
 
+            if (Mathf.Abs( rigid.velocity.x) < 0.5f)//如果横轴速率小于1.就给他添加力
+            {
+                if (transform.position.x < hit.position.x)//如果玩家在怪物的左边，就添加正数的力
+                {
+                    rigid.AddForce(new Vector2(150f, 0f));//横轴添加100牛？
+                }
+                else
+                {
+                    rigid.AddForce(new Vector2(-150f, 0f));//横轴添加100牛？
+                }
+            }
+        }
     }
+   
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.X))//如果按下X

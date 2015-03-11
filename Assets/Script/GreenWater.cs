@@ -1,21 +1,41 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GreenWater : MonoBehaviour {//绿水灵的脚本。我想在动画里设置跳起时候的播放速度0.接触地面才改回正常
+public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设置跳起时候的播放速度0.接触地面才改回正常
 
     // Use this for initialization
-    Animator anim;
-    bool rightSide = true;//面相
+    Animator anim;//这个可以放到怪物基类
+    bool rightSide = true;//面相 可以放到怪物基类
     float maxRnd =  3 *50;//3秒的几率跳
    public float jumpForceX = 10f,jumpForceY=20f;//怪物跳起来的力
     float maxSpeedX = 1.65f, maxSpeedY = 1.65f;//限制怪物的最大速度
-    void Start () {
+    float wasAttackedEndTime = 0.0f;//距离结束播放被攻击动画还剩多少秒
+    void Start () {//在基类重定义吧··
         anim = GetComponent<Animator>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+    public override void wasAttacked(float wasAttackedDurationTime)
+    {
+        wasAttackedEndTime = wasAttackedDurationTime;//设置被攻击持续时间
+     
+    }
+    // Update is called once per frame
+    void Update () {
+        wasAttackedAnim();//调用被攻击处理动画
 
+    }
+    void wasAttackedAnim()//被攻击处理动画
+    {
+        if (wasAttackedEndTime > 0 && !IsName("wasAttacked"))//如果结束被攻击动画时间大于0，且不在被攻击动画状态
+        {
+            anim.SetBool("wasAttacked", true);//设成被攻击
+            wasAttackedEndTime -= Time.deltaTime;//一个不精确但是可以用的处理被攻击动画方法··
+            if(wasAttackedEndTime<=0)
+            {
+                wasAttackedEndTime = 0;
+                anim.SetBool("wasAttacked", false);
+            }
+        }
+    
     }
     void FixedUpdate()
     {

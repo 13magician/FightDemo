@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public class PlayerControl : MonoBehaviour {//主要玩家控制角色
 
     // Use this for initialization
-    public float moveMaxForce=10;//玩家移动速度
-    public float moveForce = 7;//移动时每次增加的力
+    public float moveMaxForce= 30f;//玩家移动速度
+    public float moveForce = 4.5f;//移动时每次增加的力
     [HideInInspector]//属性不显示在Inspector。虽然不显示，但是仍然会取属性不显示在Inspector面板中的默认值···记得去掉查看/修改
     public Animator anim;
     private Rigidbody2D rigid;//角色的刚体组件
