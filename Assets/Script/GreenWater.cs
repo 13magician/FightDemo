@@ -10,18 +10,9 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
    public float jumpForceX = 10f,jumpForceY=20f;//怪物跳起来的力
     float maxSpeedX = 1.65f, maxSpeedY = 1.65f;//限制怪物的最大速度
     float wasAttackedEndTime = 0.0f;//距离结束播放被攻击动画还剩多少秒。绑定特效持续时间
-
+    bool isGround = false;//是否在地面。可以放到基类里
     void Start () {//在基类重定义吧··
         anim = GetComponent<Animator>();
-
-        Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.y);
-        Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.yMax);
-        Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.center);
-        Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.max);
-        Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.position);
-        Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.height);
-
-
     }
     public override void wasAttacked(float wasAttackedDurationTime)
     {
@@ -36,8 +27,7 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
         wasAttackedAnim();//调用被攻击处理动画
         float yMax = transform.GetComponent<SpriteRenderer>().sprite.rect.position.y;
         //  Debug.Log(yMax - yMin);
-     
-        bindEffectOffset1 =  new Vector3(0,0.7f*0.5f*transform.localScale.y, 0);
+        bindEffectOffset1 =  new Vector3(0,0.7f*0.5f*transform.localScale.y, 0);//设置特效偏移位置
       //Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.yMax);
     }
     void wasAttackedAnim()//被攻击处理动画

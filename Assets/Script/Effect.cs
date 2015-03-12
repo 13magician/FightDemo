@@ -28,13 +28,11 @@ public class Effect : MonoBehaviour {//给物体添加绑定的特效（就是�
        // yield return new WaitForEndOfFrame();//等一这一针结束
         if (bindObj != null && duration > 0)//绑定的对象不是空以及持续时间要大于0
         {
-            
             transform.position = bindObj.position + bindObj.GetComponent<Monster>().BindEffectOffset1;//获取绑定位置的更新
             duration -= 0.02f;
         }
         else
         {
-            Debug.Log("被删除了··");
             Destroy(gameObject);
         }
     }
@@ -42,13 +40,12 @@ public class Effect : MonoBehaviour {//给物体添加绑定的特效（就是�
     public void bindEffect(Transform _bindObj,float durationTime,string animName)//绑定特效
     {
         bindObj = _bindObj;
-        Debug.Log(bindObj.name);
        // effectOffset = _bindObj.GetComponent<Monster>().BindEffectOffset1;
         if (durationTime != 0.0f) duration = durationTime;//如果传进来的时间是0.就给他float最大值
         else duration = float.MaxValue;
         anim.Play(animName);
     }
-    void Delete()
+    void Delete()//帧删除接口
     {
         Destroy(gameObject);
     }
