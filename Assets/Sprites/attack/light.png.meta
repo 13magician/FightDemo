@@ -1,12 +1,11 @@
 fileFormatVersion: 2
-guid: 42f02b4820b52f84590a76fa055488f1
+guid: e0eb24237547dae4387e2f3b8f611bc7
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: blood_11
+  fileIDToRecycleName: {}
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -26,7 +25,7 @@ TextureImporter:
   maxTextureSize: 1024
   textureSettings:
     filterMode: -1
-    aniso: 1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +37,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 400
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []

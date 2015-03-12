@@ -9,19 +9,36 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     float maxRnd =  3 *50;//3秒的几率跳
    public float jumpForceX = 10f,jumpForceY=20f;//怪物跳起来的力
     float maxSpeedX = 1.65f, maxSpeedY = 1.65f;//限制怪物的最大速度
-    float wasAttackedEndTime = 0.0f;//距离结束播放被攻击动画还剩多少秒
+    float wasAttackedEndTime = 0.0f;//距离结束播放被攻击动画还剩多少秒。绑定特效持续时间
+
     void Start () {//在基类重定义吧··
         anim = GetComponent<Animator>();
-	}
+
+        Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.y);
+        Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.yMax);
+        Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.center);
+        Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.max);
+        Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.position);
+        Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.height);
+
+
+    }
     public override void wasAttacked(float wasAttackedDurationTime)
     {
         wasAttackedEndTime = wasAttackedDurationTime;//设置被攻击持续时间
-     
     }
+    //public void bindEffect(GameObject effect,float durationTime)//绑定特效接口，特效。被攻击动画持续时间。
+    //{
+    //    effectDuration = durationTime;//设置被攻击持续时间
+    //}
     // Update is called once per frame
     void Update () {
         wasAttackedAnim();//调用被攻击处理动画
-
+        float yMax = transform.GetComponent<SpriteRenderer>().sprite.rect.position.y;
+        //  Debug.Log(yMax - yMin);
+     
+        bindEffectOffset1 =  new Vector3(0,0.7f*0.5f*transform.localScale.y, 0);
+      //Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.yMax);
     }
     void wasAttackedAnim()//被攻击处理动画
     {
@@ -36,6 +53,18 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
             }
         }
     
+    }
+    public override Vector3 BindEffectOffset1//所有怪物类都应该有绑定特效偏移
+    {
+        get
+        {
+            return bindEffectOffset1;
+        }
+
+        set
+        {
+            bindEffectOffset1 = value;
+        }
     }
     void FixedUpdate()
     {

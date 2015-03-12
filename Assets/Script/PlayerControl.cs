@@ -9,8 +9,10 @@ public class PlayerControl : MonoBehaviour {//主要玩家控制角色
     [HideInInspector]//属性不显示在Inspector。虽然不显示，但是仍然会取属性不显示在Inspector面板中的默认值···记得去掉查看/修改
     public Animator anim;
     private Rigidbody2D rigid;//角色的刚体组件
-    private ActionState playState;//保存玩家的状态
+    [HideInInspector]
+    public ActionState playState;//保存玩家的状态
     private Transform colliderAssist;//攻击辅助碰撞脚本对象
+    public GameObject effect;//一个特效对象预设
     //public Transform mainCastAssist;//辅助投射的父物体
     //public  Transform[] castAssist;//4个辅助投射
     //public Transform mainColliderAssist;//攻击辅助碰撞

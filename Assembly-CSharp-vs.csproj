@@ -52,7 +52,7 @@
      <Compile Include="Assets\Script\Attack2.cs" />
      <Compile Include="Assets\Script\CameraFollow.cs" />
      <Compile Include="Assets\Script\ColliderAssist.cs" />
-     <Compile Include="Assets\Script\EffectBind.cs" />
+     <Compile Include="Assets\Script\Effect.cs" />
      <Compile Include="Assets\Script\GreenWater.cs" />
      <Compile Include="Assets\Script\Monster.cs" />
      <Compile Include="Assets\Script\PlayerControl.cs" />

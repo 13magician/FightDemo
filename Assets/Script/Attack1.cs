@@ -18,21 +18,33 @@ public class Attack1 : AbilityBaseClass {
         player = GetComponent<PlayerControl>();
         if(!player.triggerAbility.ContainsKey(AbilityName))//如果玩家类的触发技能里没有我的技能
         {
-            player.triggerAbility.Add(AbilityName, triggerAbility);//给他添加···
+            player.triggerAbility.Add(AbilityName, triggerAbility);//给玩家添加技能接口
         }
     }
     void triggerAbility(Transform hit)//技能碰撞的接口
     {
         if (hit.GetComponent<Monster>() != null)//如果有怪物类脚本
         {
-            hit.GetComponent<Monster>().wasAttacked(0.65f);//调用怪物类的被攻击接口
+            hit.GetComponent<Monster>().wasAttacked(0.65f);//调用怪物类的被攻击接口。被攻击动画持续0.65秒
             Rigidbody2D rigid = hit.GetComponent<Rigidbody2D>();
-
+            GameObject effect = Instantiate(player.effect, hit.position, Quaternion.identity) as GameObject;//克隆一个特效，旋转对齐于世界或父类
+            //这个克隆需要预设- -！
+            //effect.AddComponent<Effect>();//克隆的物体不克隆脚本组件？
+            effect.GetComponent<Effect>().bindEffect(hit.transform, 0.0f,"light");// = hit.transform;//设置这个特效的绑定对象。被触发的单位
+            //effect.GetComponent<Effect>().anim.Play("light");//让特效播放光动画
+            if (transform.position.x>hit.position.x)//如果玩家在怪物右边。就变换特效的缩放
+            {
+                effect.transform.localScale = new Vector2(-1 * effect.transform.localScale.x, effect.transform.localScale.y);//变换特效的缩放···名字有点长
+            }
+            Vector2 v2 = effect.transform.localScale;//缩放向量
+          
             if (Mathf.Abs( rigid.velocity.x) < 0.5f)//如果横轴速率小于1.就给他添加力
             {
                 if (transform.position.x < hit.position.x)//如果玩家在怪物的左边，就添加正数的力
                 {
+                
                     rigid.AddForce(new Vector2(150f, 0f));//横轴添加100牛？
+                
                 }
                 else
                 {
