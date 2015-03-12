@@ -27,7 +27,7 @@ public class Attack1 : AbilityBaseClass {
         {
             hit.GetComponent<Monster>().wasAttacked(0.65f);//调用怪物类的被攻击接口。被攻击动画持续0.65秒
             Rigidbody2D rigid = hit.GetComponent<Rigidbody2D>();
-            GameObject effect = Instantiate(player.effect, hit.position, Quaternion.identity) as GameObject;//克隆一个特效，旋转对齐于世界或父类
+            GameObject effect = Instantiate(player.effect, hit.position,Quaternion.identity) as GameObject;//克隆一个特效，旋转对齐于世界或父类
             GameObject effect2 = Instantiate(player.effect, hit.position, Quaternion.identity) as GameObject;//克隆一个特效，旋转对齐于世界或父类
             effect.GetComponent<Effect>().bindEffect(hit.transform, 0.0f, "light");// = hit.transform;//设置这个特效的绑定对象。被触发的单位
             effect2.GetComponent<Effect>().bindEffect(hit.transform, 1.0f, "blood");// = hit.transform;//设置这个特效的绑定对象。被触发的单位

@@ -20,11 +20,13 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     {
         wasAttackedEndTime = wasAttackedDurationTime;//设置被攻击持续时间
     }
-    void Update () {
+    void Update()
+    {
         wasAttackedAnim();//调用被攻击处理动画
         isGround = Physics2D.Linecast(groundCheck.position, transform.position, 1 << LayerMask.NameToLayer("ground"));//检测是否在地面
-        bindEffectOffset1 =  new Vector3(0, transform.GetComponent<SpriteRenderer>().sprite.rect.position.y * 0.5f*transform.localScale.y, 0);//计算设置特效偏移位置。
-      //Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.yMax);
+        // bindEffectOffset1 =  new Vector3(0, transform.GetComponent<SpriteRenderer>().sprite.rect.position.y * 0.5f*transform.localScale.y, 0);//计算设置特效偏移位置。
+        bindEffectOffset1 = new Vector3(0, 0.7f * 0.5f * transform.localScale.y, 0);//计算设置特效偏移位置。
+        Debug.Log(bindEffectOffset1);
     }
     void OnCollisionEnter2D(Collision2D hit)  //碰撞进入``` 玩家被怪物碰到
     {
