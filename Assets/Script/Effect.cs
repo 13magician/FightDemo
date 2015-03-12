@@ -9,7 +9,6 @@ public class Effect : MonoBehaviour {//给物体添加绑定的特效（就是�
     public Transform bindObj;//移动绑定的对象
     //public Vector3 effectOffset;//特效偏移
     public float duration = 0.0f;
-    string name;
     //Vector3 defScale;//保存默认尺寸
    void Awake()
     {
@@ -24,7 +23,6 @@ public class Effect : MonoBehaviour {//给物体添加绑定的特效（就是�
 	void Update()
     {
         //StartCoroutine( check());//等一这一针结束
-       
         check();
     }
     void check()

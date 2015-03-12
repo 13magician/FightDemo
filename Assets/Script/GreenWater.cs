@@ -15,6 +15,7 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     public Transform groundCheck;//地面检测辅助对象
     void Start () {//在基类重定义吧··
         anim = GetComponent<Animator>();
+        HP = 11;//设置绿水灵的血量
     }
     public override void wasAttacked(float wasAttackedDurationTime)
     {
@@ -26,7 +27,6 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
         isGround = Physics2D.Linecast(groundCheck.position, transform.position, 1 << LayerMask.NameToLayer("ground"));//检测是否在地面
         // bindEffectOffset1 =  new Vector3(0, transform.GetComponent<SpriteRenderer>().sprite.rect.position.y * 0.5f*transform.localScale.y, 0);//计算设置特效偏移位置。
         bindEffectOffset1 = new Vector3(0, 0.7f * 0.5f * transform.localScale.y, 0);//计算设置特效偏移位置。
-        Debug.Log(bindEffectOffset1);
     }
     void OnCollisionEnter2D(Collision2D hit)  //碰撞进入``` 玩家被怪物碰到
     {
@@ -89,8 +89,23 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
             bindEffectOffset1 = value;
         }
     }
+    IEnumerator DeathMove()//播放旋转死亡动画时的Y轴移动效果
+    {
+        for (int i = 0; i < 999; i++)
+        {
+            yield return new WaitForSeconds(0.05f);
+            transform.position = transform.position + new Vector3(0, 0.0025f, 0);
+        }
+    }
     void FixedUpdate()
     {
+        if (HP <= 0)
+        {
+            anim.Play("death_greenWater");//播放死亡动画
+            GetComponent<CircleCollider2D>().enabled = false;//设置碰撞为无
+            GetComponent<Rigidbody2D>().isKinematic = true;//设置是物理学。不受力影响
+            StartCoroutine(DeathMove());//播放旋转死亡动画时的Y轴移动效果
+        }
         if(isGround&&anim.speed==0.015f)//如果在地面，并且动画播放速度是0.015。就让他设回1
         {
             anim.speed = 1;
@@ -177,5 +192,9 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
         {
             rigid.velocity = new Vector2(rigid.velocity.x, Mathf.Sign(rigid.velocity.y) * moveMaxSpeedY);
         }
+    }
+    void DeathEvent()
+    {
+        Destroy(gameObject);
     }
 }

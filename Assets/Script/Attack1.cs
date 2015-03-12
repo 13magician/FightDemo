@@ -31,6 +31,8 @@ public class Attack1 : AbilityBaseClass {
             GameObject effect2 = Instantiate(player.effect, hit.position, Quaternion.identity) as GameObject;//克隆一个特效，旋转对齐于世界或父类
             effect.GetComponent<Effect>().bindEffect(hit.transform, 0.0f, "light");// = hit.transform;//设置这个特效的绑定对象。被触发的单位
             effect2.GetComponent<Effect>().bindEffect(hit.transform, 1.0f, "blood");// = hit.transform;//设置这个特效的绑定对象。被触发的单位
+            if (IsName(attack4)) hit.GetComponent<Monster>().HP -= 4;//如果是重击动画就减4
+            else hit.GetComponent<Monster>().HP -= 2;
             if (transform.position.x>hit.position.x)//如果玩家在怪物右边。就变换特效的缩放
             {
                 effect.transform.localScale = new Vector2(-1 * effect.transform.localScale.x, effect.transform.localScale.y);//变换特效的缩放···名字有点长
@@ -41,15 +43,23 @@ public class Attack1 : AbilityBaseClass {
                 if (transform.position.x < hit.position.x)//如果玩家在怪物的左边，就添加正数的力
                 {
                 
-                    rigid.AddForce(new Vector2(150f, 0f));//横轴添加100牛？
-                
+                     rigid.AddForce(new Vector2(150f, 0f));
+                    if (IsName(attack4))//如果是最后一击
+                    {
+                        rigid.AddForce(new Vector2(150f, 150f));
+                    }
                 }
                 else
                 {
-                    rigid.AddForce(new Vector2(-150f, 0f));//横轴添加100牛？
+                    rigid.AddForce(new Vector2(-150f, 0f));
+                    if (IsName(attack4))//如果是最后一击
+                    {
+                        rigid.AddForce(new Vector2(-150f, 150f));
+                    }
                 }
             }
         }
+        
     }
    
     void Update()
