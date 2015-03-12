@@ -10,7 +10,9 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
    public float jumpForceX = 10f,jumpForceY=20f;//怪物跳起来的力
     float maxSpeedX = 1.65f, maxSpeedY = 1.65f;//限制怪物的最大速度
     float wasAttackedEndTime = 0.0f;//距离结束播放被攻击动画还剩多少秒。绑定特效持续时间
-    bool isGround = false;//是否在地面。可以放到基类里
+    [HideInInspector]
+    public bool isGround = false;//是否在地面。可以放到基类里··这个考虑是否放在怪物基类
+    public Transform groundCheck;//地面检测辅助对象
     void Start () {//在基类重定义吧··
         anim = GetComponent<Animator>();
     }
@@ -18,17 +20,46 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     {
         wasAttackedEndTime = wasAttackedDurationTime;//设置被攻击持续时间
     }
-    //public void bindEffect(GameObject effect,float durationTime)//绑定特效接口，特效。被攻击动画持续时间。
-    //{
-    //    effectDuration = durationTime;//设置被攻击持续时间
-    //}
-    // Update is called once per frame
     void Update () {
         wasAttackedAnim();//调用被攻击处理动画
-        float yMax = transform.GetComponent<SpriteRenderer>().sprite.rect.position.y;
-        //  Debug.Log(yMax - yMin);
-        bindEffectOffset1 =  new Vector3(0,0.7f*0.5f*transform.localScale.y, 0);//设置特效偏移位置
+        isGround = Physics2D.Linecast(groundCheck.position, transform.position, 1 << LayerMask.NameToLayer("ground"));//检测是否在地面
+        bindEffectOffset1 =  new Vector3(0, transform.GetComponent<SpriteRenderer>().sprite.rect.position.y * 0.5f*transform.localScale.y, 0);//计算设置特效偏移位置。
       //Debug.Log(transform.GetComponent<SpriteRenderer>().sprite.rect.yMax);
+    }
+    void OnCollisionEnter2D(Collision2D hit)  //碰撞进入``` 玩家被怪物碰到
+    {
+        CheckCollision(hit);//交给别人处理
+    }
+    void OnCollisionStay2D(Collision2D hit)//碰撞持续
+    {
+        CheckCollision(hit);
+    }
+    void CheckCollision(Collision2D hit)//处理怪物I碰到玩家
+    {
+        if (hit.transform.tag == "Player" && hit.transform.name == "hero" && hit.gameObject.GetComponent<PlayerControl>() != null)//碰到的是玩家··不用那么多判断
+        {
+            Transform hitTf = hit.transform;
+            if (hitTf.GetComponent<ActionState>().unmatchedTime == 0.0f)//条件是没有无敌持续时间
+            {
+                hitTf.GetComponent<ActionState>().unmatchedTime = 0.8f;//给玩家添加无敌时间
+                hitTf.GetComponent<PlayerControl>().anim.Play("wasAttacked");//播放被攻击动画
+                Rigidbody2D rigid = hitTf.GetComponent<Rigidbody2D>();
+                float xVelocity = 8f, yVelocity = 4.5f;//被碰到撞飞的速度
+                if (hitTf.position.x < transform.position.x)//如果怪物在玩家右边
+                {
+                    xVelocity *= -1;
+                    yVelocity *= -1;
+                }
+                if (rigid.velocity.x < xVelocity)//如果X速度没达到要求
+                {
+                    rigid.velocity = new Vector2(xVelocity, rigid.velocity.y);//设置速度
+                }
+                if (rigid.velocity.y < yVelocity)
+                {
+                    rigid.velocity = new Vector2(rigid.velocity.x, yVelocity);
+                }
+            }
+        }
     }
     void wasAttackedAnim()//被攻击处理动画
     {
@@ -58,7 +89,11 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     }
     void FixedUpdate()
     {
-        if (IsName("idle_greenWater"))//是空闲状态
+        if(isGround&&anim.speed==0.015f)//如果在地面，并且动画播放速度是0.015。就让他设回1
+        {
+            anim.speed = 1;
+        }
+        if (IsName("idle_greenWater")&&isGround)//是空闲状态。以及在地面
         {
           if( Random.Range(0f,maxRnd)<1)//3秒几率会触发移动
             {
@@ -70,10 +105,14 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
         {
             if(GetAnimRate>0.16f && GetAnimRate<0.3f)//准备起跳和跳跃
             {
-                AddForce(jumpForceX, jumpForceY);
+                AddForce(jumpForceX, jumpForceY);//考虑放到基类
             }
-            MoveMaxSpeed(maxSpeedX, maxSpeedY);//限制最大移动速率
+            MoveMaxSpeed(maxSpeedX, maxSpeedY);//限制最大移动速率··考虑放到基类
         }
+    }
+    void SetAnim0015()//将自身动画播放速度为0.015
+    {
+        anim.speed = 0.015f;
     }
     bool IsName(string name)//判断当前播放的是否某个动画名称-最高基类
     {

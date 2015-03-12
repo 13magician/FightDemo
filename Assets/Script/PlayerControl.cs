@@ -6,6 +6,7 @@ public class PlayerControl : MonoBehaviour {//主要玩家控制角色
     // Use this for initialization
     public float moveMaxForce= 30f;//玩家移动速度
     public float moveForce = 4.5f;//移动时每次增加的力
+    
     [HideInInspector]//属性不显示在Inspector。虽然不显示，但是仍然会取属性不显示在Inspector面板中的默认值···记得去掉查看/修改
     public Animator anim;
     private Rigidbody2D rigid;//角色的刚体组件
@@ -32,21 +33,44 @@ public class PlayerControl : MonoBehaviour {//主要玩家控制角色
     // Update is called once per frame
     void Update()
     {
-
         if (playState.rightArrow && !playState.rightSide) Flip();//如果玩家按下右方向，并且面相不是右边。调用反转函数
         else if (playState.leftArrow && playState.rightSide) Flip();//否则判断如果玩家按下←方向，并且面相是右边。调用反转函数
-        anim.SetBool("run", playState.rightArrow || playState.leftArrow);//按下左右任意一个都true
-
+       if(playState.isGround) anim.SetBool("run", playState.rightArrow || playState.leftArrow);//判断玩家是否在地面。按下左右任意一个都true
+        CheckUnmatched();
     }
     void FixedUpdate()
     {
         LRMove();//角色左右移动
-         //遍历动画函数
+        //遍历动画函数
         //Attack2();//技能
+        ;//检测无敌··
+    }
+    void CheckUnmatched()//检测无敌··
+    {
+       
+        if(playState.unmatchedTime>0.0f)
+        {
+            anim.SetFloat("changeColorTime", playState.unmatchedTime);
+            playState.unmatchedTime -= Time.deltaTime;
+            //playState.unmatchedTime -= Time.deltaTime;
+            //float color = transform.GetComponent<SpriteRenderer>().color.r;//获取其中一个颜色
+            //color=color > 50 ? (color-35) :255;//三目运算。小于150就255.不然就-2
+            //Debug.Log(transform.GetComponent<SpriteRenderer>().color);
+            //transform.GetComponent<SpriteRenderer>().color = new Color(color, color, color,255);//设置玩家颜色
+            if (playState.unmatchedTime<=0.0f)
+            {
+                //transform.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);//如果无敌时间到了。就将颜色设回255
+                playState.unmatchedTime = 0.0f;//后面是根据==0.0判断的
+            }
+        }
+    }
+    void prTime()
+    {
+        Debug.Log(Time.time);
     }
     void LRMove()//左右移动
     {
-        if (IsName("run"))//如果播放的是跑步状态
+        if (IsName("run")&&playState.isGround)//如果播放的是跑步状态 并且是在地面
         {
             if (playState.leftArrow)
             {
@@ -71,10 +95,13 @@ public class PlayerControl : MonoBehaviour {//主要玩家控制角色
 
     void Flip()//面向反转函数
     {
-        Vector3 vt3 = transform.localScale;
-        vt3.x *= -1;
-        transform.localScale = vt3;//修改父物体x缩放为反方向
-       playState.rightSide = !playState.rightSide;//设置角色面相相反
+        if (IsName("idle") || IsName("run"))//如果是站立状态或跑步状态。才可以反面
+        {
+            Vector3 vt3 = transform.localScale;
+            vt3.x *= -1;
+            transform.localScale = vt3;//修改父物体x缩放为反方向
+            playState.rightSide = !playState.rightSide;//设置角色面相相反
+        }
     }
     void AbilityTrigger(string abilityClassName)//已弃用
     {

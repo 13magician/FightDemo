@@ -13,11 +13,13 @@ public class Effect : MonoBehaviour {//给物体添加绑定的特效（就是�
     {
         //因为动画创建立马要用，所以放这里
         anim = GetComponent<Animator>();//获取特效动画，这才是显示特效关键
+        if (bindObj != null) check();
     }
 	void Start () {
-      //  effect = GameObject.FindGameObjectWithTag("effect").transform;//寻找特效
-        
-	}
+        //  effect = GameObject.FindGameObjectWithTag("effect").transform;//寻找特效
+        if (bindObj != null) check();
+
+    }
 	void Update()
     {
         //StartCoroutine( check());//等一这一针结束
@@ -44,6 +46,7 @@ public class Effect : MonoBehaviour {//给物体添加绑定的特效（就是�
         if (durationTime != 0.0f) duration = durationTime;//如果传进来的时间是0.就给他float最大值
         else duration = float.MaxValue;
         anim.Play(animName);
+        check();//
     }
     void Delete()//帧删除接口
     {

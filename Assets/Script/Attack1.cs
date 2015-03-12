@@ -54,24 +54,27 @@ public class Attack1 : AbilityBaseClass {
    
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))//如果按下X
+        if (player.playState.isGround)//判断玩家是否在地面
         {
-            if (actState.isRunIdle&&!IsName(attack1))//是站立或跑动，以及不是attack1
+            if (Input.GetKeyDown(KeyCode.X))//如果按下X
             {
-                anim.SetTrigger(attack1);//播放attack1
-                AttackedMaxSpeed(attacked1MaxMove);//限制攻击时的最大速度
-            }
-            else if (IsName(attack1) &&!IsName(attack2) &&GetAnimEndTime<0.8)//是攻击1，并且不是攻击2。动画距离结束时间少于0.65秒(按下X)
-            {
-                anim.SetTrigger(attack2);//播放attack2
-            }
-            else if(IsName(attack2) && !IsName(attack3) && GetAnimEndTime<0.8)
-            {
-                anim.SetTrigger(attack3);
-            }
-            else if(IsName(attack3)&&!IsName(attack4)&&GetAnimEndTime<0.8)
-            {
-                anim.SetTrigger(attack4);
+                if (actState.isRunIdle && !IsName(attack1))//是站立或跑动，以及不是attack1
+                {
+                    anim.SetTrigger(attack1);//播放attack1
+                    AttackedMaxSpeed(attacked1MaxMove);//限制攻击时的最大速度
+                }
+                else if (IsName(attack1) && !IsName(attack2) && GetAnimEndTime < 0.8)//是攻击1，并且不是攻击2。动画距离结束时间少于0.65秒(按下X)
+                {
+                    anim.SetTrigger(attack2);//播放attack2
+                }
+                else if (IsName(attack2) && !IsName(attack3) && GetAnimEndTime < 0.8)
+                {
+                    anim.SetTrigger(attack3);
+                }
+                else if (IsName(attack3) && !IsName(attack4) && GetAnimEndTime < 0.8)
+                {
+                    anim.SetTrigger(attack4);
+                }
             }
         }
     }

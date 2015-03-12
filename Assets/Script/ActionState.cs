@@ -9,7 +9,11 @@ public class ActionState : MonoBehaviour {//保存角色的动作状态
     public bool rightSide = true;//控制角色的面相,.默认是右边
     [HideInInspector]
     public bool isRunIdle = false;//玩家是否处于跑动或空闲状态
-
+    public Transform groundCheck;
+    [HideInInspector]
+    public bool isGround;//是否在地面···
+    [HideInInspector]
+    public float unmatchedTime = 0.0f;//无敌时间
     void Start () {
         anim = GetComponent<Animator>();
 	}
@@ -30,5 +34,9 @@ public class ActionState : MonoBehaviour {//保存角色的动作状态
     bool IsName(string name)//判断当前播放的是否某个动画名称
     {
         return anim.GetCurrentAnimatorStateInfo(0).IsName(name);
+    }
+    void FixedUpdate()
+    {
+        isGround = Physics2D.Linecast(groundCheck.position, transform.position, 1 << LayerMask.NameToLayer("ground"));
     }
 }
