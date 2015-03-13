@@ -7,7 +7,7 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     Animator anim;//这个可以放到怪物基类
     bool rightSide = true;//面相 可以放到怪物基类
     float maxRnd =  3 *50;//3秒的几率跳
-   public float jumpForceX = 10f,jumpForceY=20f;//怪物跳起来的力
+   public float jumpForceX = 25f, jumpForceY=75f;//怪物跳起来的力
 
     float maxSpeedX = 1.65f, maxSpeedY = 1.65f;//限制怪物的最大速度
     float wasAttackedEndTime = 0.0f;//距离结束播放被攻击动画还剩多少秒。绑定特效持续时间
@@ -31,7 +31,7 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
         wasAttackedAnim();//调用被攻击处理动画
         isGround = Physics2D.Linecast(groundCheck.position, transform.position, 1 << LayerMask.NameToLayer("ground"));//检测是否在地面
         // bindEffectOffset1 =  new Vector3(0, transform.GetComponent<SpriteRenderer>().sprite.rect.position.y * 0.5f*transform.localScale.y, 0);//计算设置特效偏移位置。
-        bindEffectOffset1 = new Vector3(0, 0.7f * 0.5f * transform.localScale.y, 0);//计算设置特效偏移位置。
+        bindEffectOffset1 = new Vector3(0, 0.7f * 0.5f * transform.localScale.y, 0);//计算设置特效偏移位置。（锚点弄好就不用弄这个了）
         showHP();//检测显示HP
       // if(!IsName("wasAttacked_greenWater"))
       //  HP.position = transform.position + new Vector3(0, transform.GetComponent<SpriteRenderer>().sprite.rect.height/150f* transform.localScale.y, 0); //设置血条在物体Y轴上面
@@ -41,7 +41,7 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     {
         if(HPduration<=0f || currentHP <= 0f)//如果血条持续时间小于等于0或者当前血量等于0
         {
-            HP.gameObject.SetActive(true);
+            HP.gameObject.SetActive(false);
             HPduration = 0f;
         }
         else

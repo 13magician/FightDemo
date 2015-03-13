@@ -81,7 +81,7 @@ TextureImporter:
         width: 234
         height: 210
       alignment: 9
-      pivot: {x: .606447935, y: -.149657756}
+      pivot: {x: .631867528, y: .246878698}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 2_3
       rect:
@@ -91,7 +91,7 @@ TextureImporter:
         width: 204
         height: 248
       alignment: 9
-      pivot: {x: .585763991, y: -.177197427}
+      pivot: {x: .577433884, y: -.0024563421}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 2_4
       rect:
@@ -131,7 +131,7 @@ TextureImporter:
         width: 261
         height: 149
       alignment: 9
-      pivot: {x: .5, y: .0299999993}
+      pivot: {x: .452324301, y: .0414059237}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 2_9
       rect:
@@ -151,7 +151,7 @@ TextureImporter:
         width: 182
         height: 191
       alignment: 9
-      pivot: {x: .5, y: -.140000001}
+      pivot: {x: .523344278, y: .166967139}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
