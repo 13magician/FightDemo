@@ -12,7 +12,6 @@ public class ColliderAssist : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButtonDown(1)) GetComponent<Collider2D>().enabled = true;
     }
     void OnTriggerEnter2D(Collider2D hit)//碰撞打算用这个。多个物体可以正常接受
     {

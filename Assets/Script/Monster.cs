@@ -7,7 +7,10 @@ public abstract class Monster : MonoBehaviour {//所有怪物的基类
     public abstract Vector3 BindEffectOffset1 { get; set; }//所有怪物都应该有绑定特效偏移
     protected Vector3 bindEffectOffset1;
     [HideInInspector]
-    public int HP = 99999;//怪物的血量，可以考虑放到基类
+    public float currentHP = 99999;//怪物的当前血量，可以考虑放到基类
+    public float CountHP = 99999;//总血量
+    public Transform HP;
+    public float HPduration=0.0f;
     void Start () {
 	
 	}

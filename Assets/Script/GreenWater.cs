@@ -8,18 +8,23 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     bool rightSide = true;//面相 可以放到怪物基类
     float maxRnd =  3 *50;//3秒的几率跳
    public float jumpForceX = 10f,jumpForceY=20f;//怪物跳起来的力
+
     float maxSpeedX = 1.65f, maxSpeedY = 1.65f;//限制怪物的最大速度
     float wasAttackedEndTime = 0.0f;//距离结束播放被攻击动画还剩多少秒。绑定特效持续时间
     [HideInInspector]
     public bool isGround = false;//是否在地面。可以放到基类里··这个考虑是否放在怪物基类
     public Transform groundCheck;//地面检测辅助对象
+    private float hpyOffset;//血量在Y轴的偏移
     void Start () {//在基类重定义吧··
         anim = GetComponent<Animator>();
-        HP = 11;//设置绿水灵的血量
+        currentHP = 11f;//设置绿水灵的血量
+        CountHP = 11f;
+        hpyOffset = HP.position.y - transform.position.y;
     }
     public override void wasAttacked(float wasAttackedDurationTime)
     {
         wasAttackedEndTime = wasAttackedDurationTime;//设置被攻击持续时间
+        HPduration = 10f;//设置血条持续时间
     }
     void Update()
     {
@@ -27,6 +32,24 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
         isGround = Physics2D.Linecast(groundCheck.position, transform.position, 1 << LayerMask.NameToLayer("ground"));//检测是否在地面
         // bindEffectOffset1 =  new Vector3(0, transform.GetComponent<SpriteRenderer>().sprite.rect.position.y * 0.5f*transform.localScale.y, 0);//计算设置特效偏移位置。
         bindEffectOffset1 = new Vector3(0, 0.7f * 0.5f * transform.localScale.y, 0);//计算设置特效偏移位置。
+        showHP();//检测显示HP
+      // if(!IsName("wasAttacked_greenWater"))
+      //  HP.position = transform.position + new Vector3(0, transform.GetComponent<SpriteRenderer>().sprite.rect.height/150f* transform.localScale.y, 0); //设置血条在物体Y轴上面
+
+    }
+    void showHP()//检测显示HP
+    {
+        if(HPduration<=0f || currentHP <= 0f)//如果血条持续时间小于等于0或者当前血量等于0
+        {
+            HP.gameObject.SetActive(true);
+            HPduration = 0f;
+        }
+        else
+        {
+            HP.localScale = new Vector3(currentHP / CountHP, HP.localScale.y, HP.localScale.z);//设置血条缩放
+            HP.gameObject.SetActive(true);
+        }
+        HPduration -= Time.deltaTime;
     }
     void OnCollisionEnter2D(Collision2D hit)  //碰撞进入``` 玩家被怪物碰到
     {
@@ -65,8 +88,9 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     }
     void wasAttackedAnim()//被攻击处理动画
     {
-        if (wasAttackedEndTime > 0 && !IsName("wasAttacked"))//如果结束被攻击动画时间大于0，且不在被攻击动画状态
+        if (wasAttackedEndTime > 0)//如果结束被攻击动画时间大于0
         {
+            if(!IsName("wasAttacked_greenWater"))//如果没处于被攻击状态
             anim.SetBool("wasAttacked", true);//设成被攻击
             wasAttackedEndTime -= Time.deltaTime;//一个不精确但是可以用的处理被攻击动画方法··
             if(wasAttackedEndTime<=0)
@@ -100,7 +124,7 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     //}
     void FixedUpdate()
     {
-        if (HP <= 0)
+        if (currentHP <= 0)
         {
             anim.Play("death_greenWater");//播放死亡动画
             GetComponent<CircleCollider2D>().enabled = false;//设置碰撞为无
