@@ -50,9 +50,9 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
                 if (hitTf.position.x < transform.position.x)//如果怪物在玩家右边
                 {
                     xVelocity *= -1;
-                    yVelocity *= -1;
                 }
-                if (rigid.velocity.x < xVelocity)//如果X速度没达到要求
+             
+                if (Mathf.Abs( rigid.velocity.x) < Mathf.Abs(xVelocity))//如果X速度没达到要求
                 {
                     rigid.velocity = new Vector2(xVelocity, rigid.velocity.y);//设置速度
                 }
@@ -89,14 +89,15 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
             bindEffectOffset1 = value;
         }
     }
-    IEnumerator DeathMove()//播放旋转死亡动画时的Y轴移动效果
-    {
-        for (int i = 0; i < 999; i++)
-        {
-            yield return new WaitForSeconds(0.05f);
-            transform.position = transform.position + new Vector3(0, 0.0025f, 0);
-        }
-    }
+    //IEnumerator DeathMove()//播放旋转死亡动画时的Y轴移动效果
+    //{
+    //    for (int i = 0; i < 999; i++)
+    //    {
+    //        yield return new WaitForSeconds(0.05f);
+    //      //  transform.position = transform.position + new Vector3(0, 0.0025f, 0);
+          
+    //    }
+    //}
     void FixedUpdate()
     {
         if (HP <= 0)
@@ -104,7 +105,11 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
             anim.Play("death_greenWater");//播放死亡动画
             GetComponent<CircleCollider2D>().enabled = false;//设置碰撞为无
             GetComponent<Rigidbody2D>().isKinematic = true;//设置是物理学。不受力影响
-            StartCoroutine(DeathMove());//播放旋转死亡动画时的Y轴移动效果
+            GetComponent<SpriteRenderer>().enabled = false;//不用自己的精灵
+            GameObject deathAnim0 = transform.Find("deathAnim").gameObject;
+            deathAnim0.SetActive(true);//GetComponent<SpriteRenderer>().enabled = true;//用子物体的精灵
+            deathAnim0.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;//改下颜色
+            //StartCoroutine(DeathMove());//播放旋转死亡动画时的Y轴移动效果
         }
         if(isGround&&anim.speed==0.015f)//如果在地面，并且动画播放速度是0.015。就让他设回1
         {
@@ -139,7 +144,7 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     {
         Vector3 vt3 = transform.localScale;
         vt3.x *= -1;
-        transform.localScale = vt3;//修改父物体x缩放为反方向
+        transform.localScale = vt3;
         rightSide = !rightSide;//设置角色面相相反
     }
     protected float GetAnimRate//返回当前动画播放的时间比例-最高基类

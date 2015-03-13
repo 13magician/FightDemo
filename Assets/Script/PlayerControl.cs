@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 public class PlayerControl : MonoBehaviour {//主要玩家控制角色
-
+    //以后什么东西都新建一个父物体
     // Use this for initialization
     public float moveMaxForce= 30f;//玩家移动速度
     public float moveForce = 4.5f;//移动时每次增加的力
