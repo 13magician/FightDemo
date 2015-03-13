@@ -6,7 +6,7 @@ public class Attack1 : AbilityBaseClass {
     float endTime2 = 0.65f;//技能1还剩多长时间时按X可以连接到技能2。
     public float attacked1Force = 50f;//角色攻击时，如果按下方向键所增加的力
     public float attacked1MaxMove = 4.5f,attacked4MaxMove=2f;
-    string abilityName = "Attack1";//一定要定义技能的名字
+    string abilityName = "Attack1";//这是类的名字，一定要定义技能的名字
     public override string AbilityName { get { return abilityName; } set { abilityName = value; } }//名字的属性··蛋疼。已经放在基类。是抽象。要重写
     //delegate void TriggerAbility();//定义一个委托··放到技能基类。好像不需要这个··
     PlayerControl player;//玩家控制的角色··放到技能基类
@@ -70,23 +70,32 @@ public class Attack1 : AbilityBaseClass {
             {
                 if (actState.isRunIdle && !IsName(attack1))//是站立或跑动，以及不是attack1
                 {
-                    anim.SetTrigger(attack1);//播放attack1
+                    //   anim.SetTrigger(attack1);//播放attack1
+                   StartCoroutine( SetTrigger(attack1));//设置attack1为真。0.25秒后自动设成假
                     AttackedMaxSpeed(attacked1MaxMove);//限制攻击时的最大速度
+                  //  StartCoroutine(SetTriggetFlase(attack1));//0.25秒后设置触发为假。不加StartCoroutine也不报错···
                 }
                 else if (IsName(attack1) && !IsName(attack2) && GetAnimEndTime < 0.8)//是攻击1，并且不是攻击2。动画距离结束时间少于0.65秒(按下X)
                 {
-                    anim.SetTrigger(attack2);//播放attack2
+                    StartCoroutine(SetTrigger(attack2));//设置attack1为真。0.25秒后自动设成假
                 }
                 else if (IsName(attack2) && !IsName(attack3) && GetAnimEndTime < 0.8)
                 {
-                    anim.SetTrigger(attack3);
+                    StartCoroutine(SetTrigger(attack3));//设置attack1为真。0.25秒后自动设成假
                 }
                 else if (IsName(attack3) && !IsName(attack4) && GetAnimEndTime < 0.8)
                 {
-                    anim.SetTrigger(attack4);
+                    StartCoroutine(SetTrigger(attack4));//设置attack1为真。0.25秒后自动设成假
                 }
             }
         }
+    }
+
+    IEnumerator SetTrigger(string _animName,float wait=0.25f)//0.25秒后自动设回假
+    {
+        anim.SetBool(_animName, true);
+        yield return new WaitForSeconds(0.25f);//等待0.25秒
+        anim.SetBool(_animName, false);
     }
 	void FixedUpdate()
     {
