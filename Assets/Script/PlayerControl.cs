@@ -28,6 +28,7 @@ public class PlayerControl : MonoBehaviour {//主要玩家控制角色
         //添加技能组件
         //gameObject.AddComponent<Attack2>();//添加组件脚本，attack2。实际上控制技能2
         gameObject.AddComponent<Attack1>();
+        gameObject.AddComponent<Assault>();
     }
 
     // Update is called once per frame
