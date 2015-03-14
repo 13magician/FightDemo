@@ -46,11 +46,11 @@ public abstract class AbilityBaseClass : MonoBehaviour {//所有技能的基类�
     protected void AddKeyForceX(float force)//根据按键给角色添加力
     {
         Rigidbody2D rigid = GetComponent<Rigidbody2D>();
-        if (actState.rightArrow)
+        if (actState.rightArrow&&actState.rightSide)//不仅要按下键盘，面相也要对
         {
             rigid.AddForce(new Vector2(force, 0));
         }
-        else if (actState.leftArrow)
+        else if (actState.leftArrow&&!actState.rightSide)
         {
             rigid.AddForce(new Vector2(-force, 0));
         }

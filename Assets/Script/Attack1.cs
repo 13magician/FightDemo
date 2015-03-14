@@ -10,12 +10,11 @@ public class Attack1 : AbilityBaseClass {
     public override string AbilityName { get { return abilityName; } set { abilityName = value; } }//名字的属性··蛋疼。已经放在基类。是抽象。要重写
     //delegate void TriggerAbility();//定义一个委托··放到技能基类。好像不需要这个··
     PlayerControl player;//玩家控制的角色··放到技能基类
-    string durationPlyAnim;//要持续播放的动画名称
-    float durationPlyTime;//持续播放动画的时间
-   public const float maxInterval=0.8f;//连招的最大间隔
    // Dictionary<string, TriggerAbility> triggerAbility = new Dictionary<string, TriggerAbility>();//定义一个mapping···放到基类
     //保存播放动画的名称
     public string attack1 = "attack2", attack2= "sweep",attack3= "attack1", attack4= "sweepBack";
+    public float attack1Posture = 0.4f, attack2Posture = 0.7f, attack3Posture = 0.7f;//攻击1后摇
+    public float keyDuration;//按键持续时间
     protected override void  AbiStart()//重写基类的AbiStrat函数···是否要考虑换下名字，比如Init···
     {
         player = GetComponent<PlayerControl>();
@@ -64,52 +63,76 @@ public class Attack1 : AbilityBaseClass {
         }
         
     }
-   
+
     void Update()
     {
+        keyDuration -= Time.deltaTime;//按键时间减少
         if (player.playState.isGround)//判断玩家是否在地面
         {
             if (Input.GetKeyDown(KeyCode.X))//如果按下X
             {
-                if (actState.isRunIdle && !IsName(attack1))//是站立或跑动，以及不是attack1
+                if (!IsName(attack4)) //如果不是处于最后一击动画时，不然很容易又播放1
+                keyDuration = 0.5f;//按键持续时间=0.5
+            }
+            if (actState.isRunIdle && !IsName(attack1) && keyDuration > 0f)//是站立或跑动，以及不是attack1
+            {
+                anim.Play(attack1);//直接播放攻击1动画
+                keyDuration = 0f;
+                AttackedMaxSpeed(attacked1MaxMove);//限制攻击时的最大速度
+                                                   //  StartCoroutine(SetTriggetFlase(attack1));//0.25秒后设置触发为假。不加StartCoroutine也不报错···
+            }
+            else if (IsName(attack1) && !IsName(attack2) && keyDuration > 0f)//是攻击1，并且不是攻击2。按键持续时间大于0
+            {
+                if (GetAnimRate > attack1Posture)//处于attack1后摇时，就播放attack2
                 {
-                    //   anim.SetTrigger(attack1);//播放attack1
-                    StartCoroutine(SetTrigger(attack1,0.25f));
-                   StartCoroutine( SetTrigger(attack1));//设置attack1为真。0.25秒后自动设成假
-                    AttackedMaxSpeed(attacked1MaxMove);//限制攻击时的最大速度
-                  //  StartCoroutine(SetTriggetFlase(attack1));//0.25秒后设置触发为假。不加StartCoroutine也不报错···
+                    anim.Play(attack2);
+                    keyDuration = 0f;
                 }
-                else if (IsName(attack1) && !IsName(attack2) && GetAnimEndTime < maxInterval)//是攻击1，并且不是攻击2。动画距离结束时间少于0.65秒(按下X)
+            }
+            else if (IsName(attack2) && !IsName(attack3) && keyDuration > 0f)
+            {
+                if (GetAnimRate > attack2Posture)//attack1Posture大于后摇
                 {
-                    StartCoroutine(SetTrigger(attack2));
-                   // StartCoroutine(SetTrigger(attack2,attack1));//设置attack1为真。0.25秒后自动设成假
+                    anim.Play(attack3);
+                    keyDuration = 0f;
                 }
-                else if (IsName(attack2) && !IsName(attack3) && GetAnimEndTime < maxInterval)
+            }
+            else if (IsName(attack3) && !IsName(attack4) && keyDuration > 0f)
+            {
+                if (GetAnimRate > attack3Posture)//attack1Posture大于后摇
                 {
-                    StartCoroutine(SetTrigger(attack3));
-                    //    StartCoroutine(SetTrigger(attack3,attack2));//设置attack1为真。0.25秒后自动设成假
-                }
-                else if (IsName(attack3) && !IsName(attack4) && GetAnimEndTime < maxInterval)
-                {
-                    StartCoroutine(SetTrigger(attack4));
-                    // StartCoroutine(SetTrigger(attack4,attack3));//设置attack1为真。0.25秒后自动设成假
+                    anim.Play(attack4);
+                    keyDuration = 0f;
                 }
             }
         }
     }
 
-    void DurationAnimTrue(string _animName,float durationTime= maxInterval)//让某个动画持续播放多长时间
-    {
-        if(durationPlyAnim!=_animName)
-        {
-            anim.SetBool(durationPlyAnim, false);//如果新持续的动画不等于之前的那个。就设成假
-        }
-        durationPlyAnim = _animName;
-        durationPlyTime = durationTime;
-    }
+    //void DurationAnimTrue(string _animName,float durationTime= maxInterval)//让某个动画持续播放多长时间
+    //{
+    //    if(durationPlyAnim!=_animName)
+    //    {
+    //        if(durationPlyAnim!="")
+    //        anim.SetBool(durationPlyAnim, false);//如果新持续的动画不等于之前的那个。就设成假
+    //    }
+  
+ 
+    //    if(_animName != "")
+    //    {
+    //        durationPlyAnim = _animName;
+    //        durationPlyTime = durationTime;
+    //        anim.SetBool(durationPlyAnim, true);
+    //    }
+    //}
     void FixedUpdate()
     {
-        if (IsName(attack2) && GetAnimRate < 0.5f)//玩家是否按下←或→。并且是在播放动画attack2
+        if (IsName(attack1) && GetAnimRate < 0.35f)
+        {
+            AddKeyForceX(attacked1Force);
+            AttackedMaxSpeed(attacked1Force);
+            AttackedMaxSpeed(attacked4MaxMove);
+        }
+            if (IsName(attack2) && GetAnimRate < 0.5f)//玩家是否按下←或→。并且是在播放动画attack2
         {
             AddKeyForceX(attacked1Force);
             AttackedMaxSpeed(attacked1Force);
@@ -126,17 +149,18 @@ public class Attack1 : AbilityBaseClass {
             AddKeyForceX(attacked1Force);
             AttackedMaxSpeed(attacked4MaxMove);//限制移动速度
         }
-        if (durationPlyTime >= 0.0f)//这里是让某个动画持续播放多少秒
-        {
-            anim.SetBool(durationPlyAnim, true);
-            durationPlyTime -= Time.fixedDeltaTime;
-        }
-        else if (durationPlyAnim != "")//如果动画名不为空
-        {
-            anim.SetBool(durationPlyAnim, false);//设置这个动画为假
-            durationPlyAnim = "";
-            durationPlyTime = 0.0f;
-        }
+        //if (durationPlyTime >= 0.0f)//这里是让某个动画持续播放多少秒
+        //{
+        //    if(durationPlyAnim!="")
+        //    anim.SetBool(durationPlyAnim, true);
+        //    durationPlyTime -= Time.fixedDeltaTime;
+        //}
+        //else if (durationPlyAnim != "")//如果动画名不为空
+        //{
+        //    anim.SetBool(durationPlyAnim, false);//设置这个动画为假
+        //    durationPlyAnim = "";
+        //    durationPlyTime = 0.0f;
+        //}
     }
 
     void AttackedMaxSpeed(float maxSpeed)//限制攻击时的最大速度--技能基类
