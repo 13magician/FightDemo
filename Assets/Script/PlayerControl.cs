@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 public class PlayerControl : MonoBehaviour {//主要玩家控制角色
     //以后什么东西都新建一个父物体，trigger不精确。以后写个协同。0.1秒False
     // Use this for initialization
@@ -14,6 +15,11 @@ public class PlayerControl : MonoBehaviour {//主要玩家控制角色
     public ActionState playState;//保存玩家的状态
     private Transform colliderAssist;//攻击辅助碰撞脚本对象
     public GameObject effect;//一个特效对象预设
+    public Image HPBar;//血条
+    public float countHP = 50f, currentHP = 50f;//主角的血量
+    private string deathAnimName = "death";//死亡的动画名称
+    [HideInInspector]
+    public int killGreenWaterNum = 0;
     //public Transform mainCastAssist;//辅助投射的父物体
     //public  Transform[] castAssist;//4个辅助投射
     //public Transform mainColliderAssist;//攻击辅助碰撞
@@ -37,14 +43,31 @@ public class PlayerControl : MonoBehaviour {//主要玩家控制角色
         if (playState.rightArrow && !playState.rightSide) Flip();//如果玩家按下右方向，并且面相不是右边。调用反转函数
         else if (playState.leftArrow && playState.rightSide) Flip();//否则判断如果玩家按下←方向，并且面相是右边。调用反转函数
        if(playState.isGround) anim.SetBool("run", playState.rightArrow || playState.leftArrow);//判断玩家是否在地面。按下左右任意一个都true
-        CheckUnmatched();
+        HPBar.fillAmount = Mathf.Lerp(HPBar.fillAmount,currentHP / countHP,Time.deltaTime*countHP*0.05f+0.05f);//设置UI的血量显示
     }
     void FixedUpdate()
     {
+        CheckUnmatched();//检测无敌
         LRMove();//角色左右移动
+       if(currentHP<=0)
+        {
+            PlayerDeath();//角色死亡
+        }
         //遍历动画函数
         //Attack2();//技能
-        ;//检测无敌··
+        //检测无敌··
+    }
+    void PlayerDeath()//角色死亡
+    {
+        if(!playState.isDeath)//不是死亡的
+        {
+            playState.isDeath = true;//设成死亡
+            anim.Play(deathAnimName);//播放死亡动画
+            if(playState.rightSide)
+            rigid.AddForce(new Vector2( -300f, 220f));
+            else rigid.AddForce(new Vector2(300f, 220f));
+            //enabled = false;//脚本不再触发
+        }
     }
     void CheckUnmatched()//检测无敌··
     {

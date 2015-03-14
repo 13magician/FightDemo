@@ -7,6 +7,7 @@ public class Attack1 : AbilityBaseClass {
     public float attacked1Force = 50f;//角色攻击时，如果按下方向键所增加的力
     public float attacked1MaxMove = 4.5f,attacked4MaxMove=2f;
     string abilityName = "Attack1";//这是类的名字，一定要定义技能的名字
+    public AudioClip attackAudio1, attackAudio2, attackAudio3, attackAudio4;//4个攻击音效
     public override string AbilityName { get { return abilityName; } set { abilityName = value; } }//名字的属性··蛋疼。已经放在基类。是抽象。要重写
     //delegate void TriggerAbility();//定义一个委托··放到技能基类。好像不需要这个··
 
@@ -17,14 +18,15 @@ public class Attack1 : AbilityBaseClass {
     public float keyDuration;//按键持续时间
     protected override void  AbiStart()//重写基类的AbiStrat函数···是否要考虑换下名字，比如Init···
     {
-
-
+        attackAudio1 = Resources.Load("attack1-4/attack1") as AudioClip;//读取本地资源文件
+        attackAudio2 = Resources.Load("attack1-4/attack2") as AudioClip;
+        attackAudio3 = Resources.Load("attack1-4/attack3") as AudioClip;
+        attackAudio4 = Resources.Load("attack1-4/attack4") as AudioClip;
     }
     protected override void TriggerAbility(Transform hit)//技能碰撞的接口
     {
         if (hit.GetComponent<Monster>() != null)//如果有怪物类脚本
         {
-            hit.GetComponent<Monster>().WasAttacked(0.65f);//调用怪物类的被攻击接口。被攻击动画持续0.65秒
             Rigidbody2D rigid = hit.GetComponent<Rigidbody2D>();
             GameObject effect = Instantiate(player.effect, hit.position,Quaternion.identity) as GameObject;//克隆一个特效，旋转对齐于世界或父类
             GameObject effect2 = Instantiate(player.effect, hit.position, Quaternion.identity) as GameObject;//克隆一个特效，旋转对齐于世界或父类
@@ -32,8 +34,10 @@ public class Attack1 : AbilityBaseClass {
             effect2.GetComponent<Effect>().bindEffect(hit.transform, "blood",1f);// = hit.transform;//设置这个特效的绑定对象。被触发的单位
             if (IsName(attack4)) hit.GetComponent<Monster>().currentHP -= 4;//如果是重击动画就减4
             else hit.GetComponent<Monster>().currentHP -= 2;
+            hit.GetComponent<Monster>().WasAttacked(0.65f, transform);//调用怪物类的被攻击接口。被攻击动画持续0.65秒
             CheckEffectSide(hit,effect);//检测特效的左右缩放
             CheckEffectSide(hit, effect2);//检测特效的左右缩放
+            rigid.velocity = new Vector2(0, rigid.velocity.y);
             if (Mathf.Abs( rigid.velocity.x) < 0.5f)//如果横轴速率小于1.就给他添加力
             {
                 if (transform.position.x < hit.position.x)//如果玩家在怪物的左边，就添加正数的力
@@ -71,14 +75,17 @@ public class Attack1 : AbilityBaseClass {
             if (actState.isRunIdle && !IsName(attack1) && keyDuration > 0f)//是站立或跑动，以及不是attack1
             {
                 anim.Play(attack1);//直接播放攻击1动画
+                AudioSource.PlayClipAtPoint(attackAudio1, transform.position);//播放攻击音效
                 keyDuration = 0f;
                 AttackedMaxSpeed(attacked1MaxMove);//限制攻击时的最大速度
+                player.playState.unmatchedTime += 0.2f;//添加0.5秒的无敌
                                                    //  StartCoroutine(SetTriggetFlase(attack1));//0.25秒后设置触发为假。不加StartCoroutine也不报错···
             }
             else if (IsName(attack1) && !IsName(attack2) && keyDuration > 0f)//是攻击1，并且不是攻击2。按键持续时间大于0
             {
                 if (GetAnimRate > attack1Posture)//处于attack1后摇时，就播放attack2
                 {
+                    AudioSource.PlayClipAtPoint(attackAudio2, transform.position);
                     anim.Play(attack2);
                     keyDuration = 0f;
                 }
@@ -88,6 +95,7 @@ public class Attack1 : AbilityBaseClass {
                 if (GetAnimRate > attack2Posture)//attack1Posture大于后摇
                 {
                     anim.Play(attack3);
+                    AudioSource.PlayClipAtPoint(attackAudio3, transform.position);
                     keyDuration = 0f;
                 }
             }
@@ -97,6 +105,7 @@ public class Attack1 : AbilityBaseClass {
                 {
                     anim.Play(attack4);
                     keyDuration = 0f;
+                    AudioSource.PlayClipAtPoint(attackAudio4, transform.position);
                 }
             }
         }

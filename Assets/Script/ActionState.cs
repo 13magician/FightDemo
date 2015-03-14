@@ -14,6 +14,8 @@ public class ActionState : MonoBehaviour {//保存角色的动作状态
     public bool isGround;//是否在地面···
     [HideInInspector]
     public float unmatchedTime = 0.0f;//无敌时间
+    [HideInInspector]
+    public bool isDeath=false;//是否死亡
     void Start () {
         anim = GetComponent<Animator>();
 	}

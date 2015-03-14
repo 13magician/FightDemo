@@ -53,8 +53,8 @@ TextureImporter:
         y: 5
         width: 89
         height: 46
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .761478722, y: .348899752}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: dead_1
       rect:
@@ -63,8 +63,8 @@ TextureImporter:
         y: 1
         width: 62
         height: 60
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .818399251, y: .369135857}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: dead_2
       rect:
@@ -73,8 +73,8 @@ TextureImporter:
         y: 0
         width: 89
         height: 22
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 9
+      pivot: {x: .763282001, y: .0218856167}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

@@ -28,7 +28,6 @@ public class Effect : MonoBehaviour {//给物体添加绑定的特效（就是�
     void check()
     {
         // yield return new WaitForEndOfFrame();//等一这一针结束
-        Debug.Log(transform.name + ":" + duration);
         if (bindObj != null && duration > 0)//绑定的对象不是空以及持续时间要大于0
         {
             transform.position = bindObj.position + bindObj.GetComponent<Monster>().BindEffectOffset1;//获取绑定位置的更新

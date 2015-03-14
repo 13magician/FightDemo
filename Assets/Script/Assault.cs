@@ -23,8 +23,8 @@ public class Assault : AbilityBaseClass {
         if(monster!=null && !monsterList.Contains(monster))//如果怪物类脚本不为空（他是一个怪物）。以及他没被击中
         {
             monsterList.Add(monster);//添加到被击中列表
-            monster.WasAttacked(0.9f);//播放被攻击动画0.9秒
-            monster.currentHP -= 5f;//减少血量
+            monster.currentHP -= 5f;//减少血量。先算血再算
+            monster.WasAttacked(0.9f,transform);//播放被攻击动画0.9秒
             GameObject effect = Instantiate(player.effect, hit.position, Quaternion.identity) as GameObject;//克隆一个特效，旋转对齐于世界或父类
             GameObject effect2 = Instantiate(player.effect, hit.position, Quaternion.identity) as GameObject;//克隆一个特效，旋转对齐于世界或父类
             effect.GetComponent<Effect>().bindEffect(hit.transform, "light",1f);// 设置这个特效的绑定对象。并且让这个特效播放光动画
@@ -44,7 +44,7 @@ public class Assault : AbilityBaseClass {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && IsName("run"))
+        if (Input.GetKeyDown(KeyCode.Z) && (actState.rightArrow|| actState.leftArrow) && (IsName("run")||IsName("idle")))
         {
             StartCoroutine(SetTrigger(animName1));//设置真，0.25秒后变成假
         }
@@ -60,6 +60,7 @@ public class Assault : AbilityBaseClass {
             {
                 if (actState.rightSide) iTween.MoveUpdate(gameObject, transform.position + new Vector3(assaultSpeed, 0, 0), 0f);//如果是面向右边就正数
                 else iTween.MoveUpdate(gameObject, transform.position + new Vector3(-assaultSpeed, 0, 0), 0f) ;//否则就是负数
+                player.playState.unmatchedTime += 0.02f;//设置无敌冲刺时无敌
             }
             if (GetAnimRate >assaultEntTime) //大于冲刺时间（惯性力）
             {

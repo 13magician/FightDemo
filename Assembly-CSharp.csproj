@@ -57,6 +57,8 @@
      <Compile Include="Assets\Script\GreenWater.cs" />
      <Compile Include="Assets\Script\Monster.cs" />
      <Compile Include="Assets\Script\PlayerControl.cs" />
+     <Compile Include="Assets\Script\SpawnMonster.cs" />
+     <Compile Include="Assets\Script\UIText.cs" />
      <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>F:/unity4.6.0f3/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
