@@ -15,13 +15,14 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     public bool isGround = false;//是否在地面。可以放到基类里··这个考虑是否放在怪物基类
     public Transform groundCheck;//地面检测辅助对象
     private float hpyOffset;//血量在Y轴的偏移
+    public string wasAttacked = "wasAttacked_greenWater";//被攻击动画
     void Start () {//在基类重定义吧··
         anim = GetComponent<Animator>();
-        currentHP = 11f;//设置绿水灵的血量
-        CountHP = 11f;
+        currentHP = 15f;//设置绿水灵的血量
+        CountHP = 15f;//总血量
         hpyOffset = HP.position.y - transform.position.y;
     }
-    public override void wasAttacked(float wasAttackedDurationTime)
+    public override void WasAttacked(float wasAttackedDurationTime)
     {
         wasAttackedEndTime = wasAttackedDurationTime;//设置被攻击持续时间
         HPduration = 10f;//设置血条持续时间
@@ -61,7 +62,7 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     }
     void CheckCollision(Collision2D hit)//处理怪物I碰到玩家
     {
-        if (hit.transform.tag == "Player" && hit.transform.name == "hero" && hit.gameObject.GetComponent<PlayerControl>() != null)//碰到的是玩家··不用那么多判断
+        if (hit.transform.tag == "Player" && hit.transform.name == "hero" &&!IsName(wasAttacked) && hit.gameObject.GetComponent<PlayerControl>() != null)//碰到的是玩家··不用那么多判断
         {
             Transform hitTf = hit.transform;
             if (hitTf.GetComponent<ActionState>().unmatchedTime == 0.0f)//条件是没有无敌持续时间

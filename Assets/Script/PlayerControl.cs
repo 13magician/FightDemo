@@ -104,11 +104,11 @@ public class PlayerControl : MonoBehaviour {//主要玩家控制角色
             playState.rightSide = !playState.rightSide;//设置角色面相相反
         }
     }
-    void AbilityTrigger(string abilityClassName)//已弃用
+    void AbilityTrigger(string abilityName)//已弃用
     {
-        //triggerAbility[abilityClassName]();
-     //   mainCastAssist.gameObject.SetActive(false);
+        colliderAssist.GetComponent<ColliderAssist>().TriggerCollider(abilityName);//开启碰撞，碰到的人将传进abilityName对应的类的函数里
     }
+    //上下两个是一样的
     void FrameEvent(string abilityName)//帧触发接口
     {
         colliderAssist.GetComponent<ColliderAssist>().TriggerCollider(abilityName);//开启碰撞，碰到的人将传进abilityName对应的类的函数里

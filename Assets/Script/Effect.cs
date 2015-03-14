@@ -27,11 +27,12 @@ public class Effect : MonoBehaviour {//给物体添加绑定的特效（就是�
     }
     void check()
     {
-       // yield return new WaitForEndOfFrame();//等一这一针结束
+        // yield return new WaitForEndOfFrame();//等一这一针结束
+        Debug.Log(transform.name + ":" + duration);
         if (bindObj != null && duration > 0)//绑定的对象不是空以及持续时间要大于0
         {
             transform.position = bindObj.position + bindObj.GetComponent<Monster>().BindEffectOffset1;//获取绑定位置的更新
-            duration -= 0.02f;
+            duration -= Time.deltaTime;
         }
         else
         {
@@ -39,12 +40,11 @@ public class Effect : MonoBehaviour {//给物体添加绑定的特效（就是�
         }
     }
     //需要在Monster类里弄个Get特效位置
-    public void bindEffect(Transform _bindObj,float durationTime,string animName)//绑定特效
+    public void bindEffect(Transform _bindObj,string animName, float durationTime=float.MaxValue)//绑定特效
     {
         bindObj = _bindObj;
-       // effectOffset = _bindObj.GetComponent<Monster>().BindEffectOffset1;
-        if (durationTime != 0.0f) duration = durationTime;//如果传进来的时间是0.就给他float最大值
-        else duration = float.MaxValue;
+        // effectOffset = _bindObj.GetComponent<Monster>().BindEffectOffset1;
+        duration = durationTime;//如果传进来的时间是0.就给他float最大值
         anim.Play(animName);
     }
     void Delete()//帧删除接口

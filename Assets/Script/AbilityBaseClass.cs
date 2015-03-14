@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public abstract class AbilityBaseClass : MonoBehaviour {//所有技能的基类，含有技能常用的属性
     protected Animator anim;//给子类继承
     protected ActionState actState;//玩家的动作状态
+    public PlayerControl player;//玩家控制的角色··
     public abstract string AbilityName { get; set; }// //一定要设置类技能名称
     // Use this for initialization
     void Start()//占用子类Start函数，子类要使用Start函数应该调用AbiStart()函数。子类不要使用Start函数，不然会覆盖。不能正常初始化
@@ -15,7 +16,13 @@ public abstract class AbilityBaseClass : MonoBehaviour {//所有技能的基类�
     {
         anim = GetComponent<Animator>();//获取角色的动画
        actState = GetComponent<ActionState>();//玩家的动作状态
+        player = GetComponent<PlayerControl>();//玩家
+        if (!player.triggerAbility.ContainsKey(AbilityName))//如果玩家类的触发技能里没有我的技能
+        {
+            player.triggerAbility.Add(AbilityName, TriggerAbility);//给玩家添加技能接口
+        }
     }
+    protected virtual void TriggerAbility(Transform hit) { }//技能碰撞的接口。以后可以直接使用了
     protected virtual void AbiStart() { }//子类的Start函数（以后改下名字Init比较好点）
     /// <summary>
     /// 返回角色是否正在播放某个动画
@@ -107,6 +114,13 @@ public abstract class AbilityBaseClass : MonoBehaviour {//所有技能的基类�
         get
         {
             return GetAnimLength - GetAnimLength * GetAnimRate;
+        }
+    }
+    protected void CheckEffectSide(Transform bindObj, GameObject effect)
+    {
+        if (transform.position.x > bindObj.position.x)//如果玩家在怪物右边。就变换特效的缩放
+        {
+            effect.transform.localScale = new Vector2(-1 * effect.transform.localScale.x, effect.transform.localScale.y);//变换特效的缩放···名字有点长
         }
     }
 }

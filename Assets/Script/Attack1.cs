@@ -9,7 +9,7 @@ public class Attack1 : AbilityBaseClass {
     string abilityName = "Attack1";//这是类的名字，一定要定义技能的名字
     public override string AbilityName { get { return abilityName; } set { abilityName = value; } }//名字的属性··蛋疼。已经放在基类。是抽象。要重写
     //delegate void TriggerAbility();//定义一个委托··放到技能基类。好像不需要这个··
-    PlayerControl player;//玩家控制的角色··放到技能基类
+
    // Dictionary<string, TriggerAbility> triggerAbility = new Dictionary<string, TriggerAbility>();//定义一个mapping···放到基类
     //保存播放动画的名称
     public string attack1 = "attack2", attack2= "sweep",attack3= "attack1", attack4= "sweepBack";
@@ -17,29 +17,23 @@ public class Attack1 : AbilityBaseClass {
     public float keyDuration;//按键持续时间
     protected override void  AbiStart()//重写基类的AbiStrat函数···是否要考虑换下名字，比如Init···
     {
-        player = GetComponent<PlayerControl>();
-        if(!player.triggerAbility.ContainsKey(AbilityName))//如果玩家类的触发技能里没有我的技能
-        {
-            player.triggerAbility.Add(AbilityName, triggerAbility);//给玩家添加技能接口
-        }
+
+
     }
-    void triggerAbility(Transform hit)//技能碰撞的接口
+    protected override void TriggerAbility(Transform hit)//技能碰撞的接口
     {
         if (hit.GetComponent<Monster>() != null)//如果有怪物类脚本
         {
-            hit.GetComponent<Monster>().wasAttacked(0.65f);//调用怪物类的被攻击接口。被攻击动画持续0.65秒
+            hit.GetComponent<Monster>().WasAttacked(0.65f);//调用怪物类的被攻击接口。被攻击动画持续0.65秒
             Rigidbody2D rigid = hit.GetComponent<Rigidbody2D>();
             GameObject effect = Instantiate(player.effect, hit.position,Quaternion.identity) as GameObject;//克隆一个特效，旋转对齐于世界或父类
             GameObject effect2 = Instantiate(player.effect, hit.position, Quaternion.identity) as GameObject;//克隆一个特效，旋转对齐于世界或父类
-            effect.GetComponent<Effect>().bindEffect(hit.transform, 0.0f, "light");// = hit.transform;//设置这个特效的绑定对象。被触发的单位
-            effect2.GetComponent<Effect>().bindEffect(hit.transform, 1.0f, "blood");// = hit.transform;//设置这个特效的绑定对象。被触发的单位
+            effect.GetComponent<Effect>().bindEffect(hit.transform, "light",1f);// = hit.transform;//设置这个特效的绑定对象。被触发的单位
+            effect2.GetComponent<Effect>().bindEffect(hit.transform, "blood",1f);// = hit.transform;//设置这个特效的绑定对象。被触发的单位
             if (IsName(attack4)) hit.GetComponent<Monster>().currentHP -= 4;//如果是重击动画就减4
             else hit.GetComponent<Monster>().currentHP -= 2;
-            if (transform.position.x>hit.position.x)//如果玩家在怪物右边。就变换特效的缩放
-            {
-                effect.transform.localScale = new Vector2(-1 * effect.transform.localScale.x, effect.transform.localScale.y);//变换特效的缩放···名字有点长
-                effect2.transform.localScale = new Vector2(-1 * effect2.transform.localScale.x, effect2.transform.localScale.y);//变换特效的缩放···名字有点长
-            }
+            CheckEffectSide(hit,effect);//检测特效的左右缩放
+            CheckEffectSide(hit, effect2);//检测特效的左右缩放
             if (Mathf.Abs( rigid.velocity.x) < 0.5f)//如果横轴速率小于1.就给他添加力
             {
                 if (transform.position.x < hit.position.x)//如果玩家在怪物的左边，就添加正数的力
