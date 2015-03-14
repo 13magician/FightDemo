@@ -61,11 +61,13 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     }
     void OnCollisionEnter2D(Collision2D hit)  //碰撞进入``` 玩家被怪物碰到
     {
+        if(!IsName(wasAttacked))
         CheckCollision(hit);//交给别人处理
     }
     void OnCollisionStay2D(Collision2D hit)//碰撞持续
     {
-        CheckCollision(hit);
+        if (!IsName(wasAttacked))
+            CheckCollision(hit);
     }
     void CheckCollision(Collision2D hit)//处理怪物I碰到玩家
     {
@@ -101,7 +103,7 @@ public class GreenWater : Monster {//绿水灵的脚本。我想在动画里设�
     {
         if (wasAttackedEndTime > 0)//如果结束被攻击动画时间大于0
         {
-            if(!IsName("wasAttacked_greenWater"))//如果没处于被攻击状态
+            if(!IsName(wasAttacked))//如果没处于被攻击状态
             anim.SetBool("wasAttacked", true);//设成被攻击
             wasAttackedEndTime -= Time.deltaTime;//一个不精确但是可以用的处理被攻击动画方法··
         }
