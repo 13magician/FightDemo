@@ -42,14 +42,15 @@ public class PlayerControl : MonoBehaviour {//主要玩家控制角色
     {
         if (playState.rightArrow && !playState.rightSide) Flip();//如果玩家按下右方向，并且面相不是右边。调用反转函数
         else if (playState.leftArrow && playState.rightSide) Flip();//否则判断如果玩家按下←方向，并且面相是右边。调用反转函数
-       if(playState.isGround) anim.SetBool("run", playState.rightArrow || playState.leftArrow);//判断玩家是否在地面。按下左右任意一个都true
+       if(!playState.isGround) anim.SetBool("run", playState.rightArrow || playState.leftArrow || playState.upArrow || playState.downArrow);//判断玩家是否在地面。按下左右任意一个都true
         HPBar.fillAmount = Mathf.Lerp(HPBar.fillAmount,currentHP / countHP,Time.deltaTime*countHP*0.05f+0.05f);//设置UI的血量显示
     }
     void FixedUpdate()
     {
         CheckUnmatched();//检测无敌
         LRMove();//角色左右移动
-       if(currentHP<=0)
+        UDMove();//角色上下移动
+        if (currentHP<=0)
         {
             PlayerDeath();//角色死亡
         }
@@ -109,7 +110,22 @@ public class PlayerControl : MonoBehaviour {//主要玩家控制角色
                 rigid.velocity = new Vector2(Mathf.Sign(rigid.velocity.x) * moveMaxForce, rigid.velocity.y);
             }
         }
-
+    }
+    void UDMove()//上下移动
+    {
+        if(IsName("run")&&!playState.isGround)
+        {
+            if(playState.upArrow)
+            {
+                Vector3 v3 = transform.position;
+                transform.position = new Vector3(v3.x, v3.y + 0.02f, v3.z);
+            }
+            else if(playState.downArrow)
+            {
+                Vector3 v3 = transform.position;
+                transform.position = new Vector3(v3.x, v3.y - 0.02f, v3.z);
+            }
+        }
     }
 
     bool IsName(string name)//判断当前播放的是否某个动画名称
