@@ -7,7 +7,7 @@ public class Player1 : MonoBehaviour {
     //public:
     public float xWalkSpeed = 0.05f, yWalkSpeed=0.03f,xRunSpeed=0.5f,yRunSpeed=0.35f;//玩家走跑速度
     public Image HPBar;//血条
-    public float jumpForce = 200f,jumpSpeed=5f;//跳跃时的力、速度
+    public float jumpSpeed=5f,jumpXquiken=0.1f,jumpYquiken=-0.25f;//跳跃时的力、速度。跳跃时的X轴加速比率
     public float countHP = 50f, currentHP = 50f;//主角的血量
     public float runKeyInterval = 0.3f;//跑按键间隔
     public Transform colliderAssist,groundCheck;//攻击辅助碰撞脚本对象，地面检测
@@ -45,6 +45,7 @@ public class Player1 : MonoBehaviour {
     KeyCode upKey = KeyCode.UpArrow,downKey=KeyCode.DownArrow,leftKey=KeyCode.LeftArrow,rightKey=KeyCode.RightArrow;//设置上下左右键
     private float lastDownTime;//第一次按下左右的时间
     private bool lastRightSide;//按下左右时的面相
+    private bool isRunJump;//记录跳跃前是行走还是跑
     //public Transform mainCastAssist;//辅助投射的父物体
     //public  Transform[] castAssist;//4个辅助投射
     //public Transform mainColliderAssist;//攻击辅助碰撞
@@ -55,10 +56,11 @@ public class Player1 : MonoBehaviour {
         anim = GetComponent<Animator>();
         root = transform.root;//根物体
         rigid =root.GetComponent<Rigidbody2D>();//根物体的刚体
-       
+
         //添加技能组件
         //gameObject.AddComponent<Attack1>();
         //gameObject.AddComponent<Assault>();
+        gameObject.AddComponent<Zhiquan>();
     }
 
     // Update is called once per frame
@@ -103,6 +105,10 @@ public class Player1 : MonoBehaviour {
         UDwalk();//角色上下走
         LRrun();//角色左右跑
         UDrun();//角色上下跑
+        SkyLRwalk();//空中左右行走
+        SkyUDwalk();//空中上下行走
+        SkyLRrun();//空中左右跑
+        SkyUDrun();//空中上下跑
         //遍历动画函数
         //Attack2();//技能
         //检测无敌··
@@ -116,6 +122,11 @@ public class Player1 : MonoBehaviour {
                 anim.SetBool(jumpVar, true);//设置跳跃变量为true
                 //rigid.AddForce(new Vector2(0, 200f));
                 rigid.velocity = new Vector2(rigid.velocity.x, jumpSpeed);//直接设置速度
+                isRunJump = false;//记录跳跃前是行走还是跑
+                if (IsName(runName))//如果是跑动画
+                {
+                    isRunJump = true;
+                }
             }
         }
         else
@@ -127,7 +138,7 @@ public class Player1 : MonoBehaviour {
 
     void LRwalk()//左右行走
     {
-        if (IsName(walkName) && isGround)//如果播放的是行走状态 并且是在地面
+        if (IsName(walkName) && isGroundNormalAction)//如果播放的是行走状态 并且是在地面
         {
             if (leftArrow)
             {
@@ -142,14 +153,30 @@ public class Player1 : MonoBehaviour {
             }
         }
     }
+    void SkyLRwalk()//空中左右行走
+    {
+        if (isSkyNormalAction&&!isRunJump)// && IsName(jumpName))//在空中以及不是跑着跳
+        {
+            if(leftArrow)
+            {
+                Vector3 v = root.position;
+                root.position = new Vector3(v.x - xWalkSpeed * (1 + jumpXquiken), v.y, v.z);
+            }
+            else if(rightArrow)
+            {
+                Vector3 v = root.position;
+                root.position = new Vector3(v.x + xWalkSpeed * (1 + jumpXquiken), v.y, v.z);
+            }
+        }
+    }
     void UDwalk()//上下行走
     {
-        if (IsName(walkName) && isGround)//如果播放的是行走状态 并且是在地面
+        if (IsName(walkName) && isGroundNormalAction)//如果播放的是行走状态 并且是在地面
         {
             if (upArrow)
             {
                 Vector3 v = transform.position;
-               transform.position = new Vector3(v.x , v.y+yWalkSpeed, v.z);//上下移动是改变自身的位置
+               transform.position = new Vector3(v.x , v.y+yWalkSpeed , v.z);//上下移动是改变自身的位置
                 //rigid.AddForce(new Vector2(-moveForce, 0));//给角色添加力
             }
             else if (downArrow)
@@ -159,9 +186,25 @@ public class Player1 : MonoBehaviour {
             }
         }
     }
+    void SkyUDwalk()//空中上下行走
+    {
+        if (isSkyNormalAction&&!isRunJump)//&& IsName(jumpName))//空中正常活动，以及是跑的时候跳的
+        {
+            if (upArrow)
+            {
+                Vector3 v = transform.position;
+                transform.position = new Vector3(v.x, v.y + yWalkSpeed * (1 + jumpYquiken), v.z);
+            }
+            else if (downArrow)
+            {
+                Vector3 v = transform.position;
+                transform.position = new Vector3(v.x, v.y - yWalkSpeed * (1 + jumpYquiken), v.z);
+            }
+        }
+    }
     void LRrun()//左右跑
     {
-        if (IsName(runName) && isGround)//如果播放的是run状态 并且是在地面
+        if (IsName(runName) && isGroundNormalAction)//如果播放的是run状态 并且是在地面
         {
             if (leftArrow)
             {
@@ -176,9 +219,25 @@ public class Player1 : MonoBehaviour {
             }
         }
     }
+    void SkyLRrun()//空中左右跑
+    {
+        if(isSkyNormalAction&&isRunJump)//&& IsName(jumpName))//以及跑着跳的
+        {
+            if (leftArrow)
+            {
+                Vector3 v = root.position;
+                root.position = new Vector3(v.x - xRunSpeed*(1+jumpXquiken), v.y, v.z);//跳跃加速
+            }
+            else if (rightArrow)
+            {
+                Vector3 v = root.position;
+                root.position = new Vector3(v.x + xRunSpeed * (1 + jumpXquiken), v.y, v.z);
+            }
+        }
+    }
     void UDrun()//上下跑
     {
-        if (IsName(runName) && isGround)//如果播放的是行走状态 并且是在地面
+        if (IsName(runName) && isGroundNormalAction)//如果播放的是行走状态 并且是在地面
         {
             if (upArrow)
             {
@@ -193,6 +252,23 @@ public class Player1 : MonoBehaviour {
             }
         }
     }
+    void SkyUDrun()//空中上下跑
+    {
+        if(isSkyNormalAction&&isRunJump)// && IsName(jumpName))//如果空中活动以及跑着跳的
+        {
+            if (upArrow)
+            {
+                Vector3 v = transform.position;
+                transform.position = new Vector3(v.x, v.y +yRunSpeed *(1 + jumpYquiken), v.z);
+            }
+            else if (downArrow)
+            {
+                Vector3 v = transform.position;
+                transform.position = new Vector3(v.x, v.y - yRunSpeed * (1 + jumpYquiken), v.z);
+            }
+        }
+    }
+
     void CheckIsSkyNormalAction()//检测是否能在空中正常行动
     {
         isSkyNormalAction = false;
