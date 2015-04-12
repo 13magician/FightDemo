@@ -37,5 +37,6 @@ public class PrologueCar : MonoBehaviour {
     {
         GameObject endGas = Instantiate<GameObject>(endGasParticle);
         endGas.transform.position = endGasPosition.position;
+        Destroy(endGas, 5f);
     }
 }
